@@ -1,0 +1,177 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "RESTSender_PJ",
+    "description" : "My example REST service\n[http://swagger.io](http://swagger.io) or on\n[irc.freenode.net, #swagger](http://swagger.io/irc/).\n",
+    "contact" : {
+      "email" : "peter.jones@yell.com"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/hometown47meister/REST_Sender_PJ/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  }, {
+    "url" : "http://devpo360.yellgroup.com:52000",
+    "description" : "Deveolpoment server"
+  }, {
+    "url" : "http://qaspo360.yellgroup.com:52000",
+    "description" : "Test server"
+  } ],
+  "paths" : {
+    "/RESTAdapter/MyTest/{custId}" : {
+      "get" : {
+        "tags" : [ "Customer" ],
+        "summary" : "Find customer by ID",
+        "description" : "Returns a single customer name",
+        "operationId" : "getCustById",
+        "parameters" : [ {
+          "name" : "custId",
+          "in" : "path",
+          "description" : "ID of pet to return",
+          "required" : true,
+          "schema" : {
+            "format" : "integer",
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Success_Response"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Customer not found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Failure_Response"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "BasicAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Success_Response" : {
+        "required" : [ "Id" ],
+        "type" : "object",
+        "properties" : {
+          "Id" : {
+            "description" : "The past in customer Id",
+            "type" : "string",
+            "example" : 1223
+          },
+          "Name" : {
+            "description" : "The name of the customer",
+            "type" : "string",
+            "example" : "John Doe"
+          },
+          "Success_Flag" : {
+            "$ref" : "#/components/schemas/Success_Flag"
+          }
+        },
+        "example" : {
+          "value" : {
+            "Id" : 1234,
+            "Name" : "John Jones",
+            "Success_Flag" : "Y"
+          }
+        }
+      },
+      "Failure_Response" : {
+        "required" : [ "Id" ],
+        "type" : "object",
+        "properties" : {
+          "Id" : {
+            "description" : "The past in customer Id",
+            "type" : "string",
+            "example" : 1223
+          },
+          "Success_Flag" : {
+            "$ref" : "#/components/schemas/Success_Flag"
+          },
+          "Error" : {
+            "$ref" : "#/components/schemas/Error"
+          }
+        },
+        "example" : {
+          "value" : {
+            "Id" : 1234,
+            "Success_Flag" : "N",
+            "Error" : {
+              "Error_Code" : "ERR_123",
+              "Error_Desc" : "Customer not found"
+            }
+          }
+        }
+      },
+      "Success_Flag" : {
+        "description" : "A Y/N flag indicating if the service found the customer",
+        "enum" : [ "Y", "N" ],
+        "type" : "string"
+      },
+      "Error" : {
+        "type" : "object",
+        "properties" : {
+          "Error_Code" : {
+            "description" : "An error code",
+            "enum" : [ "ERR_123", "ERR_124" ],
+            "type" : "string"
+          },
+          "Error_Desc" : {
+            "description" : "An error message",
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "BasicAuth" : {
+        "type" : "http",
+        "scheme" : "basic"
+      },
+      "petstore_auth" : {
+        "type" : "oauth2",
+        "flows" : {
+          "implicit" : {
+            "authorizationUrl" : "http://petstore.swagger.io/oauth/dialog",
+            "scopes" : {
+              "write:pets" : "modify pets in your account",
+              "read:pets" : "read your pets"
+            }
+          }
+        }
+      },
+      "api_key" : {
+        "type" : "apiKey",
+        "name" : "api_key",
+        "in" : "header"
+      }
+    }
+  },
+  "tags" : [ {
+    "name" : "Customer",
+    "description" : "Everything customer related",
+    "externalDocs" : {
+      "description" : "Find out more",
+      "url" : "http://swagger.io"
+    }
+  } ],
+  "externalDocs" : {
+    "description" : "Find out more about Swagger",
+    "url" : "http://swagger.io"
+  }
+}
